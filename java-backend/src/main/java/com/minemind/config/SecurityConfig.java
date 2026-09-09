@@ -63,7 +63,11 @@ public class SecurityConfig {
                                 "/actuator/info",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html"
+                                "/swagger-ui.html",
+                                "/ws/**",
+                                "/ws/simulation/**",
+                                "/api/v1/digital-twin/**",
+                                "/api/v1/simulation/**"
                         ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // Any other request must be authenticated
