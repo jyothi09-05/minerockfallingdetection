@@ -77,3 +77,8 @@ data/
 .env.local
 .env.*.local
 !.env.example
+
+# Temporary / Scratch
+scratch/
+data_export/
+generated_data/
