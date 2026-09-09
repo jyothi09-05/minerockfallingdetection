@@ -1,0 +1,57 @@
+name: MineMind AI CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  backend-test:
+    name: Java Backend CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build and Test Java Backend
+        working-directory: java-backend
+        run: |
+          mvn clean test --batch-mode
+
+  python-ai-test:
+    name: Python AI CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies and test
+        working-directory: python-ai
+        run: |
+          pip install -r requirements.txt
+          pytest tests/ -v
+
+  frontend-test:
+    name: Frontend UI CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install and Build Frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+          npm test

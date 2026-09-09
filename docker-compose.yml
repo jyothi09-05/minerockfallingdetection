@@ -1,0 +1,139 @@
+version: '3.8'
+
+services:
+  # ==========================================================
+  # 1. POSTGRESQL RELATIONAL & SPATIAL DATABASE
+  # ==========================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: minemind-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-minemind_db}
+      POSTGRES_USER: ${POSTGRES_USER:-minemind_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-minemind_secure_password_2026!}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-minemind_user} -d ${POSTGRES_DB:-minemind_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - minemind-network
+
+  # ==========================================================
+  # 2. REDIS DISTRIBUTED CACHE & SESSION STORE
+  # ==========================================================
+  redis:
+    image: redis:7-alpine
+    container_name: minemind-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - minemind-network
+
+  # ==========================================================
+  # 3. JAVA ENTERPRISE CORE BACKEND (Spring Boot 3)
+  # ==========================================================
+  java-backend:
+    build:
+      context: ./java-backend
+      dockerfile: Dockerfile
+    container_name: minemind-java-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-minemind_db}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-minemind_user}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-minemind_secure_password_2026!}
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET:-404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+      SERVER_PORT: 8080
+    ports:
+      - "${JAVA_PORT:-8080}:8080"
+    volumes:
+      - ./data/storage:/app/storage
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 25s
+    networks:
+      - minemind-network
+
+  # ==========================================================
+  # 4. PYTHON AI & TELEMETRY SERVICE (FastAPI)
+  # ==========================================================
+  python-ai:
+    build:
+      context: ./python-ai
+      dockerfile: Dockerfile
+    container_name: minemind-python-ai
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      APP_ENV: docker
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JAVA_BACKEND_URL: http://java-backend:8080/api/v1
+    ports:
+      - "${PYTHON_AI_PORT:-8000}:8000"
+    volumes:
+      - ./data/telemetry:/app/data/telemetry
+      - ./data/models:/app/data/models
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - minemind-network
+
+  # ==========================================================
+  # 5. FRONTEND INDUSTRIAL COMMAND CENTER (React + Vite)
+  # ==========================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: minemind-frontend
+    restart: unless-stopped
+    depends_on:
+      - java-backend
+      - python-ai
+    ports:
+      - "${FRONTEND_PORT:-5173}:80"
+    networks:
+      - minemind-network
+
+networks:
+  minemind-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
