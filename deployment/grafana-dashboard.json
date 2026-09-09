@@ -1,0 +1,45 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": true,
+  "panels": [
+    {
+      "title": "Mine Composite Risk Index",
+      "type": "gauge",
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
+      "targets": [{ "expr": "minemind_composite_risk", "refId": "A" }]
+    },
+    {
+      "title": "Active Mobile Haulage Fleet",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 0 },
+      "targets": [{ "expr": "minemind_active_vehicles", "refId": "A" }]
+    },
+    {
+      "title": "Personnel on Shift",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 0 },
+      "targets": [{ "expr": "minemind_workers_on_shift", "refId": "A" }]
+    },
+    {
+      "title": "North Highwall Factor of Safety (FoS)",
+      "type": "gauge",
+      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 0 },
+      "targets": [{ "expr": "minemind_slope_factor_of_safety", "refId": "A" }]
+    }
+  ],
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["minemind", "operations", "safety"],
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "MineMind AI — Enterprise Operations & Safety Overview",
+  "version": 1
+}

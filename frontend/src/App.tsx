@@ -5,6 +5,13 @@ import { Header } from './components/common/Header';
 import { Sidebar } from './components/common/Sidebar';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
+import { UnifiedCommandCenter } from './pages/UnifiedCommandCenter';
+import { IncidentManagement } from './pages/IncidentManagement';
+import { EmergencyResponse } from './pages/EmergencyResponse';
+import { AnalyticsPlatform } from './pages/AnalyticsPlatform';
+import { ReportsCenter } from './pages/ReportsCenter';
+import { Administration } from './pages/Administration';
+import { Observability } from './pages/Observability';
 import { AiAssistant } from './pages/AiAssistant';
 import { AiOverview } from './pages/AiOverview';
 import { GeotechnicalRisk } from './pages/GeotechnicalRisk';
@@ -40,7 +47,14 @@ const ProtectedLayout: React.FC = () => {
         <Header />
         <main className="p-6 flex-1 overflow-y-auto">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<UnifiedCommandCenter />} />
+            <Route path="/incidents" element={<IncidentManagement />} />
+            <Route path="/emergency" element={<EmergencyResponse />} />
+            <Route path="/analytics" element={<AnalyticsPlatform />} />
+            <Route path="/reports" element={<ReportsCenter />} />
+            <Route path="/admin" element={<Administration />} />
+            <Route path="/observability" element={<Observability />} />
+            <Route path="/dashboard-legacy" element={<Dashboard />} />
             <Route path="/ai-assistant" element={<AiAssistant />} />
             <Route path="/ai-overview" element={<AiOverview />} />
             <Route path="/geotech-risk" element={<GeotechnicalRisk />} />

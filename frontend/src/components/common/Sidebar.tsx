@@ -19,11 +19,20 @@ import {
   Gauge,
   Eye,
   Radio,
-  Bot
+  Bot,
+  ShieldAlert,
+  AlertOctagon,
+  BarChart3,
+  FileText
 } from 'lucide-react';
 
 const AI_NAV_ITEMS = [
+  { label: 'Command Center HUD', icon: LayoutDashboard, path: '/' },
+  { label: 'Incident Management', icon: ShieldAlert, path: '/incidents' },
+  { label: 'Emergency Simulator', icon: AlertOctagon, path: '/emergency' },
   { label: 'AI Mining Assistant', icon: Bot, path: '/ai-assistant' },
+  { label: 'Analytics Platform', icon: BarChart3, path: '/analytics' },
+  { label: 'Reporting Engine', icon: FileText, path: '/reports' },
   { label: 'AI Risk Command', icon: BrainCircuit, path: '/ai-overview' },
   { label: 'Geotechnical & Rockfall', icon: Mountain, path: '/geotech-risk' },
   { label: 'Collision Avoidance', icon: Radio, path: '/collision-avoidance' },
@@ -34,7 +43,6 @@ const AI_NAV_ITEMS = [
 ];
 
 const OPS_NAV_ITEMS = [
-  { label: 'Operations HUD', icon: LayoutDashboard, path: '/' },
   { label: 'Digital Twin (2D/3D)', icon: Layers3, path: '/digital-twin' },
   { label: 'Simulation Studio', icon: Activity, path: '/simulation-studio' },
   { label: 'Mines Registry', icon: Map, path: '/mines' },
@@ -44,8 +52,9 @@ const OPS_NAV_ITEMS = [
   { label: 'Workforce Hub', icon: Users, path: '/workers' },
   { label: 'IoT Sensors', icon: Activity, path: '/sensors' },
   { label: 'User & RBAC Access', icon: UserCog, path: '/users' },
+  { label: 'System Admin', icon: Settings, path: '/admin' },
+  { label: 'Observability & Metrics', icon: Activity, path: '/observability' },
   { label: 'Audit Trail', icon: ScrollText, path: '/audit-logs' },
-  { label: 'System Settings', icon: Settings, path: '/settings' },
 ];
 
 export const Sidebar: React.FC = () => {
