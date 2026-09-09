@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#070A0F] text-slate-100 font-sans antialiased;
+  }
+}
+
+/* Custom Industrial UI Styles */
+.hazard-stripes {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(245, 158, 11, 0.15),
+    rgba(245, 158, 11, 0.15) 10px,
+    rgba(0, 0, 0, 0.2) 10px,
+    rgba(0, 0, 0, 0.2) 20px
+  );
+}
+
+.radar-sweep {
+  animation: radar 4s linear infinite;
+}
+
+@keyframes radar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pulse-glow-amber {
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+}
+
+.pulse-glow-emerald {
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+.pulse-glow-red {
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0F17;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222F46;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
