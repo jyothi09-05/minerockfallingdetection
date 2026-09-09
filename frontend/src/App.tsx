@@ -10,6 +10,7 @@ import { IncidentManagement } from './pages/IncidentManagement';
 import { EmergencyResponse } from './pages/EmergencyResponse';
 import { AnalyticsPlatform } from './pages/AnalyticsPlatform';
 import { ReportsCenter } from './pages/ReportsCenter';
+import { SurveillanceCenter } from './pages/SurveillanceCenter';
 import { Administration } from './pages/Administration';
 import { Observability } from './pages/Observability';
 import { AiAssistant } from './pages/AiAssistant';
@@ -48,6 +49,7 @@ const ProtectedLayout: React.FC = () => {
         <main className="p-6 flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<UnifiedCommandCenter />} />
+            <Route path="/surveillance" element={<SurveillanceCenter />} />
             <Route path="/incidents" element={<IncidentManagement />} />
             <Route path="/emergency" element={<EmergencyResponse />} />
             <Route path="/analytics" element={<AnalyticsPlatform />} />

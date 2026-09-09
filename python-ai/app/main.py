@@ -6,7 +6,7 @@ from app.routers import (
     health, telemetry, anomalies, ai, rockfall, collision,
     predictive_maintenance, cv, alerts, assistant,
     incidents, emergency, analytics, reports, search,
-    websocket, metrics
+    websocket, metrics, cctv
 )
 
 app = FastAPI(
@@ -47,6 +47,7 @@ app.include_router(reports.router)
 app.include_router(search.router)
 app.include_router(websocket.router)
 app.include_router(metrics.router)
+app.include_router(cctv.router)
 
 @app.get("/")
 async def root():

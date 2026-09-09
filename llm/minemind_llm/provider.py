@@ -104,6 +104,13 @@ class DeterministicMiningLLMProvider(BaseLLMProvider):
                 "- Rainfall intensity $>25\\text{ mm/hr}$ triggers immediate haulage halt to lowermost sump benches (EMERG-MM-EVAC-001).\n"
                 "- In the event of Code RED total pit evacuation, personnel proceed via primary escape ramp **R-01** (or secondary **R-02** on West Flank) to Assembly Area Alpha."
             )
+        elif any(w in q_lower for w in ["camera", "cctv", "surveillance", "ppe", "geofence", "incursion", "ptz"]):
+            parts.append(
+                "**Mine CCTV Surveillance & Computer Vision Telemetry**:\n"
+                "- 6 high-definition operational cameras active across loading, highwall, ramp, crusher, and sump sectors.\n"
+                "- Real-time AI models running locally: PPE Compliance (Hardhat/Vest), Polygonal Geofences, Vehicle Kinematics, and Thermal/Smoke Anomaly detection.\n"
+                "- All video feeds and frame inferences are processed 100% locally and offline."
+            )
         elif any(w in q_lower for w in ["shift", "handover", "summary", "tons", "production", "overview"]):
             parts.append(
                 "**Shift Operations Overview**:\n"

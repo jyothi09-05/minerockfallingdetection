@@ -80,6 +80,49 @@ class InternalMiningTools:
                 "parameters": {
                     "severity": {"type": "string", "description": "Filter by severity ('CRITICAL', 'WARNING', 'INFO', or 'all')"}
                 }
+            },
+            {
+                "name": "get_camera_status",
+                "description": "Retrieves operational status, health, PTZ orientation, and active models for mine CCTV surveillance cameras.",
+                "parameters": {
+                    "camera_id": {"type": "string", "description": "Camera ID (e.g., 'CAM-PIT-01', 'CAM-NW-02', 'CAM-RAMP-03', or 'all')"}
+                }
+            },
+            {
+                "name": "get_camera_events",
+                "description": "Retrieves recent computer vision safety events, PPE non-compliance, and zone breaches.",
+                "parameters": {
+                    "limit": {"type": "integer", "description": "Maximum number of events to retrieve (default: 10)"}
+                }
+            },
+            {
+                "name": "get_cameras_by_zone",
+                "description": "Lists all CCTV cameras covering a specific mine zone.",
+                "parameters": {
+                    "zone_id": {"type": "string", "description": "Zone ID (e.g., 'ZONE-PIT-01', 'ZONE-NW-01')"}
+                }
+            },
+            {
+                "name": "get_restricted_zone_events",
+                "description": "Retrieves active or recent polygonal geofence incursion alerts across all camera views.",
+                "parameters": {}
+            },
+            {
+                "name": "get_ppe_violations",
+                "description": "Retrieves all detected PPE compliance violations (missing helmet, missing high-vis vest).",
+                "parameters": {}
+            },
+            {
+                "name": "get_camera_health",
+                "description": "Returns network-wide camera health diagnostics, FPS stats, and latency metrics.",
+                "parameters": {}
+            },
+            {
+                "name": "get_incident_replay",
+                "description": "Fetches visual CCTV frame replay metadata for an incident.",
+                "parameters": {
+                    "incident_id": {"type": "string", "description": "Incident ID (e.g. 'INC-2026-001')"}
+                }
             }
         ]
 
@@ -286,3 +329,78 @@ class InternalMiningTools:
         if severity != "all":
             alerts = [a for a in alerts if a["severity"].upper() == severity.upper()]
         return {"count": len(alerts), "alerts": alerts}
+
+    @staticmethod
+    def get_camera_status(camera_id: str = "all", **kwargs) -> Dict[str, Any]:
+        cams = {
+            "CAM-PIT-01": {"name": "Pit Floor Shovel CAM #01", "zone": "Pit Floor Loading Zone", "status": "ACTIVE", "health": 99.2, "fps": 30, "ai_models": ["PPE", "ZONE_GEOFENCE"]},
+            "CAM-NW-02": {"name": "North Wall Highwall Monitor #02", "zone": "North-West Sector Benches", "status": "ACTIVE", "health": 97.8, "fps": 25, "ai_models": ["HIGHWALL_CREST", "PPE"]},
+            "CAM-RAMP-03": {"name": "Haul Road Main Incline Junction #03", "zone": "Haul Road Switchback #2", "status": "ACTIVE", "health": 98.9, "fps": 30, "ai_models": ["PROXIMITY", "VEHICLE_TRACKER"]},
+            "CAM-CRU-04": {"name": "Primary Gyratory Crusher Hopper #04", "zone": "Primary Crusher Discharge", "status": "ACTIVE", "health": 96.4, "fps": 30, "ai_models": ["SMOKE_FIRE", "PINCH_POINT"]},
+            "CAM-SUMP-05": {"name": "Pit Sump Dewatering Substation #05", "zone": "Pit Floor Sump & Pump House", "status": "ACTIVE", "health": 95.1, "fps": 20, "ai_models": ["WATER_LEVEL", "PPE"]},
+            "CAM-STOCK-06": {"name": "ROM Stockpile Stacker / Reclaimer #06", "zone": "High-Grade ROM Stockpile", "status": "ACTIVE", "health": 99.0, "fps": 30, "ai_models": ["PPE", "STOCKPILE_HEIGHT"]}
+        }
+        if camera_id != "all" and camera_id in cams:
+            return {"camera_id": camera_id, **cams[camera_id]}
+        return {"total_cameras": len(cams), "cameras": cams}
+
+    @staticmethod
+    def get_camera_events(limit: int = 10, **kwargs) -> Dict[str, Any]:
+        events = [
+            {"event_id": "EVT-88A1", "camera_id": "CAM-PIT-01", "type": "PPE_VIOLATION", "severity": "HIGH", "desc": "Worker detected without safety helmet in 15m radius of shovel"},
+            {"event_id": "EVT-77B2", "camera_id": "CAM-NW-02", "type": "RESTRICTED_ZONE_ENTRY", "severity": "CRITICAL", "desc": "Personnel incursion into Bench 1350 exclusion buffer"},
+            {"event_id": "EVT-66C3", "camera_id": "CAM-RAMP-03", "type": "PROXIMITY_WARNING", "severity": "HIGH", "desc": "Light vehicle within 18m blindspot envelope of haul truck"}
+        ]
+        return {"count": len(events[:limit]), "events": events[:limit]}
+
+    @staticmethod
+    def get_cameras_by_zone(zone_id: str = "ZONE-PIT-01", **kwargs) -> Dict[str, Any]:
+        return {
+            "zone_id": zone_id,
+            "cameras": [
+                {"camera_id": "CAM-PIT-01", "name": "Pit Floor Shovel CAM #01", "status": "ACTIVE", "resolution": "1920x1080"}
+            ]
+        }
+
+    @staticmethod
+    def get_restricted_zone_events(**kwargs) -> Dict[str, Any]:
+        return {
+            "active_incursions": 1,
+            "incursions": [
+                {"zone_name": "Highwall Crest 20m Buffer", "camera_id": "CAM-NW-02", "severity": "CRITICAL", "violator": "PERSON #104"}
+            ]
+        }
+
+    @staticmethod
+    def get_ppe_violations(**kwargs) -> Dict[str, Any]:
+        return {
+            "total_violations_today": 2,
+            "compliance_rate_pct": 95.2,
+            "violations": [
+                {"camera_id": "CAM-PIT-01", "worker_track_id": 102, "missing": ["HELMET"], "time": "8 minutes ago"}
+            ]
+        }
+
+    @staticmethod
+    def get_camera_health(**kwargs) -> Dict[str, Any]:
+        return {
+            "total_cameras": 6,
+            "active_cameras": 6,
+            "offline_cameras": 0,
+            "average_health_score_pct": 97.7,
+            "average_latency_ms": 15.3,
+            "system_status": "OPTIMAL"
+        }
+
+    @staticmethod
+    def get_incident_replay(incident_id: str = "INC-2026-001", **kwargs) -> Dict[str, Any]:
+        return {
+            "incident_id": incident_id,
+            "camera_id": "CAM-NW-02",
+            "camera_name": "North Wall Highwall Monitor #02",
+            "event_type": "RESTRICTED_ZONE_ENTRY",
+            "severity": "CRITICAL",
+            "duration_sec": 22.0,
+            "replay_url": f"/api/v1/cctv/replays/{incident_id}"
+        }
+

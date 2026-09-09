@@ -21,6 +21,13 @@ class ToolRouter:
         "get_vehicle_status": InternalMiningTools.get_vehicle_status,
         "get_worker_status": InternalMiningTools.get_worker_status,
         "get_active_alerts": InternalMiningTools.get_active_alerts,
+        "get_camera_status": InternalMiningTools.get_camera_status,
+        "get_camera_events": InternalMiningTools.get_camera_events,
+        "get_cameras_by_zone": InternalMiningTools.get_cameras_by_zone,
+        "get_restricted_zone_events": InternalMiningTools.get_restricted_zone_events,
+        "get_ppe_violations": InternalMiningTools.get_ppe_violations,
+        "get_camera_health": InternalMiningTools.get_camera_health,
+        "get_incident_replay": InternalMiningTools.get_incident_replay,
     }
 
     @classmethod
@@ -68,6 +75,22 @@ class ToolRouter:
 
         if any(w in q for w in ["alert", "warning", "tarp", "alarm", "incident"]):
             tools_to_run.append({"tool_name": "get_active_alerts", "args": {"severity": "all"}})
+
+        if any(w in q for w in ["camera", "cctv", "surveillance", "video", "fov", "ptz"]):
+            cam_id = "CAM-PIT-01" if "pit" in q else ("CAM-NW-02" if "north" in q else "all")
+            tools_to_run.append({"tool_name": "get_camera_status", "args": {"camera_id": cam_id}})
+
+        if any(w in q for w in ["ppe violation", "helmet", "high-vis", "vest"]):
+            tools_to_run.append({"tool_name": "get_ppe_violations", "args": {}})
+
+        if any(w in q for w in ["restricted zone", "geofence", "exclusion zone", "incursion"]):
+            tools_to_run.append({"tool_name": "get_restricted_zone_events", "args": {}})
+
+        if any(w in q for w in ["camera health", "latency", "dropped frame"]):
+            tools_to_run.append({"tool_name": "get_camera_health", "args": {}})
+
+        if any(w in q for w in ["replay", "incident cctv"]):
+            tools_to_run.append({"tool_name": "get_incident_replay", "args": {"incident_id": "INC-2026-001"}})
 
         # Fallback if no specific keyword matched but it's an inquiry
         if not tools_to_run:

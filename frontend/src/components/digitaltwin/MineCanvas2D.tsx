@@ -358,6 +358,50 @@ export const MineCanvas2D: React.FC<MineCanvas2DProps> = ({
         });
       }
 
+      // 7. Draw CCTV Surveillance Cameras & FOV Cones
+      const CAMS_2D = [
+        { id: 'CAM-PIT-01', name: 'CAM-01 (Pit Shovel)', x: 150, z: -120, angle: 45, fov: 75 },
+        { id: 'CAM-NW-02', name: 'CAM-02 (North Wall)', x: 85, z: 180, angle: 135, fov: 80 },
+        { id: 'CAM-RAMP-03', name: 'CAM-03 (Haul Ramp)', x: -60, z: -40, angle: 210, fov: 65 },
+        { id: 'CAM-CRU-04', name: 'CAM-04 (Crusher)', x: 280, z: 210, angle: 315, fov: 70 },
+        { id: 'CAM-SUMP-05', name: 'CAM-05 (Pit Sump)', x: -110, z: -190, angle: 60, fov: 60 },
+        { id: 'CAM-STOCK-06', name: 'CAM-06 (ROM Stockpile)', x: 220, z: -80, angle: 170, fov: 85 },
+      ];
+
+      CAMS_2D.forEach((cam) => {
+        const c = worldToCanvas(cam.x, cam.z, w, h);
+        const rad = (cam.angle * Math.PI) / 180;
+        const halfFov = ((cam.fov / 2) * Math.PI) / 180;
+        const coneDist = 45 * scale;
+
+        // Draw FOV Cone
+        ctx.beginPath();
+        ctx.moveTo(c.x, c.y);
+        ctx.arc(c.x, c.y, coneDist, rad - halfFov, rad + halfFov);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.12)';
+        ctx.fill();
+        ctx.strokeStyle = '#38BDF8';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Camera Marker Dot
+        ctx.fillStyle = '#38BDF8';
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, 4.5 * scale, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#0F172A';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Label
+        ctx.fillStyle = '#38BDF8';
+        ctx.font = 'bold 8px Inter, monospace';
+        ctx.fillText(`📹 ${cam.id}`, c.x + 8, c.y - 4);
+      });
+
       animId = requestAnimationFrame(render);
     };
 

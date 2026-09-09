@@ -202,6 +202,54 @@ export const MineScene3D: React.FC<MineScene3DProps> = ({
     scene.add(weatherParticles);
     weatherParticlesRef.current = weatherParticles;
 
+    // 6. CCTV Surveillance Camera Towers & 3D Cones
+    const cctvGroup = new THREE.Group();
+    const CAMS_3D = [
+      { id: 'CAM-PIT-01', x: 150, y: 35, z: -120, angleDeg: 45 },
+      { id: 'CAM-NW-02', x: 85, y: 95, z: 180, angleDeg: 135 },
+      { id: 'CAM-RAMP-03', x: -60, y: 60, z: -40, angleDeg: 210 },
+      { id: 'CAM-CRU-04', x: 280, y: 110, z: 210, angleDeg: 315 },
+      { id: 'CAM-SUMP-05', x: -110, y: 15, z: -190, angleDeg: 60 },
+      { id: 'CAM-STOCK-06', x: 220, y: 85, z: -80, angleDeg: 170 },
+    ];
+
+    CAMS_3D.forEach((cam) => {
+      const camTower = new THREE.Group();
+      camTower.position.set(cam.x, (cam.y - 50) * 0.5, cam.z);
+
+      // Mast
+      const mastGeo = new THREE.CylinderGeometry(0.6, 1.0, 18, 8);
+      const mastMat = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.5 });
+      const mast = new THREE.Mesh(mastGeo, mastMat);
+      mast.position.y = 9;
+      camTower.add(mast);
+
+      // Camera Box
+      const boxGeo = new THREE.BoxGeometry(2.5, 1.8, 3.5);
+      const boxMat = new THREE.MeshStandardMaterial({ color: 0x0284c7 });
+      const camBox = new THREE.Mesh(boxGeo, boxMat);
+      camBox.position.y = 18;
+      camBox.rotation.y = (cam.angleDeg * Math.PI) / 180;
+      camTower.add(camBox);
+
+      // FOV Visual Cone
+      const coneGeo = new THREE.ConeGeometry(12, 28, 16, 1, true);
+      const coneMat = new THREE.MeshBasicMaterial({
+        color: 0x38bdf8,
+        transparent: true,
+        opacity: 0.15,
+        side: THREE.DoubleSide
+      });
+      const cone = new THREE.Mesh(coneGeo, coneMat);
+      cone.position.set(0, 18, 0);
+      cone.rotation.x = Math.PI / 2.3;
+      cone.rotation.y = (cam.angleDeg * Math.PI) / 180;
+      camTower.add(cone);
+
+      cctvGroup.add(camTower);
+    });
+    scene.add(cctvGroup);
+
     // Mouse Interaction Handlers for Orbit Rotation
     const handleMouseDown = (e: MouseEvent) => {
       isDraggingRef.current = true;

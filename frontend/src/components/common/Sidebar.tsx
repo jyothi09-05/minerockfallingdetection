@@ -23,11 +23,13 @@ import {
   ShieldAlert,
   AlertOctagon,
   BarChart3,
-  FileText
+  FileText,
+  Video
 } from 'lucide-react';
 
 const AI_NAV_ITEMS = [
   { label: 'Command Center HUD', icon: LayoutDashboard, path: '/' },
+  { label: 'CCTV Surveillance', icon: Video, path: '/surveillance' },
   { label: 'Incident Management', icon: ShieldAlert, path: '/incidents' },
   { label: 'Emergency Simulator', icon: AlertOctagon, path: '/emergency' },
   { label: 'AI Mining Assistant', icon: Bot, path: '/ai-assistant' },
