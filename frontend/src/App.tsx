@@ -5,6 +5,8 @@ import { Header } from './components/common/Header';
 import { Sidebar } from './components/common/Sidebar';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
+import { DigitalTwin } from './pages/DigitalTwin';
+import { SimulationStudio } from './pages/SimulationStudio';
 import { MineList } from './pages/MineList';
 import { MineDetails } from './pages/MineDetails';
 import { ZoneManagement } from './pages/ZoneManagement';
@@ -31,6 +33,8 @@ const ProtectedLayout: React.FC = () => {
         <main className="p-6 flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/digital-twin" element={<DigitalTwin />} />
+            <Route path="/simulation-studio" element={<SimulationStudio />} />
             <Route path="/mines" element={<MineList />} />
             <Route path="/mines/:id" element={<MineDetails />} />
             <Route path="/zones" element={<ZoneManagement />} />

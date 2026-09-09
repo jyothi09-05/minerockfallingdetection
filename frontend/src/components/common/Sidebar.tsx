@@ -18,6 +18,8 @@ import {
 
 const NAV_ITEMS = [
   { label: 'Command Center', icon: LayoutDashboard, path: '/' },
+  { label: 'Digital Twin (2D/3D)', icon: Layers3, path: '/digital-twin' },
+  { label: 'Simulation Studio', icon: Activity, path: '/simulation-studio' },
   { label: 'Mines Registry', icon: Map, path: '/mines' },
   { label: 'Zone Operations', icon: Layers, path: '/zones' },
   { label: 'Machinery & Fleet', icon: Truck, path: '/equipment' },
