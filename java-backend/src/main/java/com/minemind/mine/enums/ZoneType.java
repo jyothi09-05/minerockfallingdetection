@@ -1,0 +1,15 @@
+package com.minemind.mine.enums;
+
+public enum ZoneType {
+    EXTRACTION_PIT,
+    PROCESSING_PLANT,
+    WASTE_DUMP,
+    TAILINGS_DAM,
+    STOCKPILE,
+    BLAST_ZONE,
+    WORKSHOP,
+    REFUELING_STATION,
+    ADMINISTRATION,
+    UNDERGROUND_STOPE,
+    VENTILATION_SHAFT
+}

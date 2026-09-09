@@ -1,0 +1,13 @@
+package com.minemind.auth.enums;
+
+public enum SecurityEventType {
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
+    LOGOUT,
+    TOKEN_REFRESH,
+    PASSWORD_CHANGE,
+    ROLE_ASSIGNMENT,
+    ACCOUNT_LOCKED,
+    UNAUTHORIZED_ACCESS_ATTEMPT,
+    EMERGENCY_OVERRIDE
+}

@@ -1,0 +1,13 @@
+package com.minemind.auth.enums;
+
+public enum RoleType {
+    ROLE_SUPER_ADMIN,
+    ROLE_MINE_ADMIN,
+    ROLE_MINE_MANAGER,
+    ROLE_SAFETY_OFFICER,
+    ROLE_GEOLOGIST,
+    ROLE_MAINTENANCE_ENGINEER,
+    ROLE_OPERATOR,
+    ROLE_WORKER,
+    ROLE_VIEWER
+}
