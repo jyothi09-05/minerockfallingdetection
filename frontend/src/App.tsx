@@ -5,6 +5,7 @@ import { Header } from './components/common/Header';
 import { Sidebar } from './components/common/Sidebar';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
+import { AiAssistant } from './pages/AiAssistant';
 import { AiOverview } from './pages/AiOverview';
 import { GeotechnicalRisk } from './pages/GeotechnicalRisk';
 import { CollisionAvoidance } from './pages/CollisionAvoidance';
@@ -40,6 +41,7 @@ const ProtectedLayout: React.FC = () => {
         <main className="p-6 flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/ai-assistant" element={<AiAssistant />} />
             <Route path="/ai-overview" element={<AiOverview />} />
             <Route path="/geotech-risk" element={<GeotechnicalRisk />} />
             <Route path="/collision-avoidance" element={<CollisionAvoidance />} />

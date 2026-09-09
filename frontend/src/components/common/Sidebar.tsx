@@ -18,10 +18,12 @@ import {
   Mountain,
   Gauge,
   Eye,
-  Radio
+  Radio,
+  Bot
 } from 'lucide-react';
 
 const AI_NAV_ITEMS = [
+  { label: 'AI Mining Assistant', icon: Bot, path: '/ai-assistant' },
   { label: 'AI Risk Command', icon: BrainCircuit, path: '/ai-overview' },
   { label: 'Geotechnical & Rockfall', icon: Mountain, path: '/geotech-risk' },
   { label: 'Collision Avoidance', icon: Radio, path: '/collision-avoidance' },

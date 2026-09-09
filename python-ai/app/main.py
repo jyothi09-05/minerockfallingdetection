@@ -1,14 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.routers import health, telemetry, anomalies, ai, rockfall, collision, predictive_maintenance, cv, alerts
+from app.routers import health, telemetry, anomalies, ai, rockfall, collision, predictive_maintenance, cv, alerts, assistant
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     docs_url="/docs",
     redoc_url="/redoc",
-    version="3.0.0-PHASE3"
+    version="4.0.0-PHASE4"
 )
 
 # CORS configuration
@@ -30,6 +30,7 @@ app.include_router(collision.router)
 app.include_router(predictive_maintenance.router)
 app.include_router(cv.router)
 app.include_router(alerts.router)
+app.include_router(assistant.router)
 
 @app.get("/")
 async def root():
