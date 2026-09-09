@@ -5,6 +5,13 @@ import { Header } from './components/common/Header';
 import { Sidebar } from './components/common/Sidebar';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
+import { AiOverview } from './pages/AiOverview';
+import { GeotechnicalRisk } from './pages/GeotechnicalRisk';
+import { CollisionAvoidance } from './pages/CollisionAvoidance';
+import { PredictiveMaintenance } from './pages/PredictiveMaintenance';
+import { WorkerSafetyAi } from './pages/WorkerSafetyAi';
+import { ComputerVision } from './pages/ComputerVision';
+import { ModelRegistry } from './pages/ModelRegistry';
 import { DigitalTwin } from './pages/DigitalTwin';
 import { SimulationStudio } from './pages/SimulationStudio';
 import { MineList } from './pages/MineList';
@@ -33,6 +40,13 @@ const ProtectedLayout: React.FC = () => {
         <main className="p-6 flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/ai-overview" element={<AiOverview />} />
+            <Route path="/geotech-risk" element={<GeotechnicalRisk />} />
+            <Route path="/collision-avoidance" element={<CollisionAvoidance />} />
+            <Route path="/predictive-maintenance" element={<PredictiveMaintenance />} />
+            <Route path="/worker-safety-ai" element={<WorkerSafetyAi />} />
+            <Route path="/computer-vision" element={<ComputerVision />} />
+            <Route path="/model-registry" element={<ModelRegistry />} />
             <Route path="/digital-twin" element={<DigitalTwin />} />
             <Route path="/simulation-studio" element={<SimulationStudio />} />
             <Route path="/mines" element={<MineList />} />
